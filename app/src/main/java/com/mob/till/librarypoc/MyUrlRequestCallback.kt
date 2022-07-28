@@ -33,7 +33,7 @@ class MyUrlRequestCallback : UrlRequest.Callback() {
     override fun onReadCompleted(request: UrlRequest?, info: UrlResponseInfo?, byteBuffer: ByteBuffer?) {
         Log.i(TAG, "onReadCompleted method called.")
         // You should keep reading the request until there's no more data.
-//        byteBuffer?.flip()
+        byteBuffer?.flip()
         receiveChannel.write(byteBuffer)
         byteBuffer?.clear()
         request?.read(byteBuffer)
@@ -42,7 +42,8 @@ class MyUrlRequestCallback : UrlRequest.Callback() {
     override fun onSucceeded(request: UrlRequest?, info: UrlResponseInfo?) {
         Log.i(TAG, "onSucceeded method called.")
         val bodyBytes = bytesReceived.toByteArray()
-        Log.i(TAG, "BODY BYTES : $bodyBytes")
+        val bodyString = String(bodyBytes, Charsets.UTF_16)
+        Log.i(TAG, "BODY BYTES : $bodyString")
     }
 
     override fun onFailed(request: UrlRequest?, info: UrlResponseInfo?, error: CronetException?) {
