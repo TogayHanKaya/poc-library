@@ -43,7 +43,7 @@ class MyUrlRequestCallback : UrlRequest.Callback() {
         Log.i(TAG, "onSucceeded method called.")
         val bodyBytes = bytesReceived.toByteArray()
         val bodyString = String(bodyBytes, Charsets.UTF_16)
-        Log.i(TAG, "BODY BYTES : $bodyString")
+        Log.i(TAG, "BODY : $bodyString")
     }
 
     override fun onFailed(request: UrlRequest?, info: UrlResponseInfo?, error: CronetException?) {
