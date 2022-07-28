@@ -28,12 +28,15 @@ class MyUrlRequestCallback : UrlRequest.Callback() {
     override fun onReadCompleted(request: UrlRequest?, info: UrlResponseInfo?, byteBuffer: ByteBuffer?) {
         Log.i(TAG, "onReadCompleted method called.")
         // You should keep reading the request until there's no more data.
+        Log.i(TAG, "byteBuffer 1: " + byteBuffer.toString())
         byteBuffer?.clear()
         request?.read(byteBuffer)
+        Log.i(TAG, "byteBuffer 2: " + byteBuffer.toString())
     }
 
     override fun onSucceeded(request: UrlRequest?, info: UrlResponseInfo?) {
         Log.i(TAG, "onSucceeded method called.")
+        Log.i(TAG, "INFO: " + info.toString())
     }
 
     override fun onFailed(request: UrlRequest?, info: UrlResponseInfo?, error: CronetException?) {
