@@ -4,11 +4,16 @@ import android.util.Log
 import org.chromium.net.CronetException
 import org.chromium.net.UrlRequest
 import org.chromium.net.UrlResponseInfo
+import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
+import java.nio.channels.Channels
 
 private const val TAG = "MyUrlRequestCallback"
 
 class MyUrlRequestCallback : UrlRequest.Callback() {
+    private val bytesReceived = ByteArrayOutputStream()
+    private val receiveChannel = Channels.newChannel(bytesReceived)
+
     override fun onRedirectReceived(request: UrlRequest?, info: UrlResponseInfo?, newLocationUrl: String?) {
         Log.i(TAG, "onRedirectReceived method called.")
         // You should call the request.followRedirect() method to continue
@@ -28,6 +33,8 @@ class MyUrlRequestCallback : UrlRequest.Callback() {
     override fun onReadCompleted(request: UrlRequest?, info: UrlResponseInfo?, byteBuffer: ByteBuffer?) {
         Log.i(TAG, "onReadCompleted method called.")
         // You should keep reading the request until there's no more data.
+        byteBuffer?.flip()
+        receiveChannel.write(byteBuffer)
         Log.i(TAG, "byteBuffer 1: " + byteBuffer.toString())
         byteBuffer?.clear()
         request?.read(byteBuffer)
@@ -36,7 +43,8 @@ class MyUrlRequestCallback : UrlRequest.Callback() {
 
     override fun onSucceeded(request: UrlRequest?, info: UrlResponseInfo?) {
         Log.i(TAG, "onSucceeded method called.")
-        Log.i(TAG, "INFO: " + info.toString())
+        val bodyBytes = bytesReceived.toByteArray()
+        Log.i(TAG, "BODY BYTES : $bodyBytes")
     }
 
     override fun onFailed(request: UrlRequest?, info: UrlResponseInfo?, error: CronetException?) {
