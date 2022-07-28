@@ -42,7 +42,7 @@ class MyUrlRequestCallback : UrlRequest.Callback() {
     override fun onSucceeded(request: UrlRequest?, info: UrlResponseInfo?) {
         Log.i(TAG, "onSucceeded method called.")
         val bodyBytes = bytesReceived.toByteArray()
-        val bodyString = String(bodyBytes, Charsets.UTF_16)
+        val bodyString = String(bodyBytes, Charsets.UTF_8)
         Log.i(TAG, "BODY : $bodyString")
     }
 
