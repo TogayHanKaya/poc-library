@@ -33,12 +33,10 @@ class MyUrlRequestCallback : UrlRequest.Callback() {
     override fun onReadCompleted(request: UrlRequest?, info: UrlResponseInfo?, byteBuffer: ByteBuffer?) {
         Log.i(TAG, "onReadCompleted method called.")
         // You should keep reading the request until there's no more data.
-        byteBuffer?.flip()
+//        byteBuffer?.flip()
         receiveChannel.write(byteBuffer)
-        Log.i(TAG, "byteBuffer 1: " + byteBuffer.toString())
         byteBuffer?.clear()
         request?.read(byteBuffer)
-        Log.i(TAG, "byteBuffer 2: " + byteBuffer.toString())
     }
 
     override fun onSucceeded(request: UrlRequest?, info: UrlResponseInfo?) {

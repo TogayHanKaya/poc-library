@@ -7,8 +7,6 @@ import org.chromium.net.impl.JavaCronetProvider
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
-const val LOGGER_TAG = "NetworkLibrary LOG :"
-
 class NetworkLibrary {
 
     fun makeRequest(context: Context) {
