@@ -10,7 +10,7 @@ import java.nio.channels.Channels
 
 private const val TAG = "MyUrlRequestCallback"
 
-class MyUrlRequestCallback : UrlRequest.Callback() {
+class MyUrlRequestCallback(val callback: Callback) : UrlRequest.Callback() {
     private val bytesReceived = ByteArrayOutputStream()
     private val receiveChannel = Channels.newChannel(bytesReceived)
 
@@ -44,10 +44,15 @@ class MyUrlRequestCallback : UrlRequest.Callback() {
         val bodyBytes = bytesReceived.toByteArray()
         val bodyString = String(bodyBytes, Charsets.UTF_8)
         Log.i(TAG, "BODY : $bodyString")
+        callback.onResponse(bodyString)
     }
 
     override fun onFailed(request: UrlRequest?, info: UrlResponseInfo?, error: CronetException?) {
         // The request has failed. If possible, handle the error.
         Log.e(TAG, "The request failed.", error)
     }
+}
+
+interface Callback {
+    fun onResponse(response: String)
 }
